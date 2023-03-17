@@ -2,6 +2,8 @@
   "name": "auto-commit-ai",
   "displayName": "Auto Commit AI",
   "description": "Suggests commit messages based on user's previous commits",
+  "publisher": "Leonardogrig",
+  "icon": "images/logo.png",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.76.0"
@@ -23,12 +25,12 @@
     "commands": [
       {
         "command": "extension.gitCommitSuggestions",
-        "title": "Git Commit Suggestions"
+        "title": "Auto Commit AI"
       }
     ],
     "configuration": [
       {
-        "title": "Git Commit Suggestions",
+        "title": "Auto Commit AI",
         "properties": {
           "gitCommitSuggestions.openAIKey": {
             "type": "string",
