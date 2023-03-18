@@ -1,6 +1,6 @@
-# Git Commit Suggestions for Visual Studio Code
+# Auto Commit AI for Visual Studio Code
 
-Git Commit Suggestions is a Visual Studio Code extension that generates suggested commit messages based on your staged changes. It uses OpenAI's GPT-3 to create relevant and descriptive commit messages.
+Auto Commit AI is a Visual Studio Code extension that generates suggested commit messages based on your staged changes. It uses OpenAI's GPT-3 to create relevant and descriptive commit messages.
 
 ## Features
 

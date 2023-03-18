@@ -4,7 +4,7 @@
   "description": "Suggests commit messages based on user's previous commits",
   "publisher": "Leonardogrig",
   "icon": "images/logo.png",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.76.0"
   },
