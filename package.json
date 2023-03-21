@@ -24,8 +24,12 @@
   "contributes": {
     "commands": [
       {
-        "command": "extension.gitCommitSuggestions",
-        "title": "Auto Commit AI"
+        "command": "autoCommitAI.suggest",
+        "title": "Auto Commit AI: Suggest Commit Message"
+      },
+      {
+        "command": "autoCommitAI.commit",
+        "title": "Auto Commit AI: Commit With Suggested Message"
       }
     ],
     "configuration": [
