@@ -26,7 +26,7 @@ Please report any issues or bugs you encounter on the [GitHub repository](https:
 
 ## Release Notes
 
-### 0.0.4
+### 0.0.5
 
 - Initial release of the Git Commit Suggestions extension.
 

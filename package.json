@@ -4,11 +4,10 @@
   "description": "Suggests commit messages based on user's previous commits",
   "publisher": "Leonardogrig",
   "icon": "images/logo.png",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "engines": {
     "vscode": "^1.76.0"
   },
-  "license": "MIT",
   "author": {
     "name": "Leonardo Grigorio Araujo",
     "email": "leonardogrig@gmail.com"
@@ -65,7 +64,6 @@
     "eslint": "^8.34.0",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
-    "simple-git": "^3.17.0",
     "ts-loader": "^9.4.2",
     "typescript": "^4.9.5",
     "webpack": "^5.75.0",
@@ -74,6 +72,7 @@
   "dependencies": {
     "@types/axios": "^0.14.0",
     "axios": "^1.3.4",
-    "openai": "^3.2.1"
+    "openai": "^3.2.1",
+    "simple-git": "^3.17.0"
   }
 }
