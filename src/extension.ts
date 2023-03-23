@@ -22,56 +22,74 @@ async function hasUnstagedChanges() {
 
 export async function activate(context: vscode.ExtensionContext) {
 	console.log('Congratulations, your extension "git-commit-suggestions" is now active!');
-  
+
 	// Register the command
 	const disposable = vscode.commands.registerCommand('extension.gitCommitSuggestions', async () => {
-	  const apiKey = await getOpenAIKey();
-  
-	  if (await hasUnstagedChanges()) {
-		const terminal = vscode.window.activeTerminal || vscode.window.createTerminal();
-		terminal.show();
-		terminal.sendText('git status');
-		vscode.window.showInformationMessage('You need to stage your changes with "git add ." before using this extension.');
-		return;
-	  }
-  
-	  if (!apiKey) {
-		vscode.window.showErrorMessage('Please provide your OpenAI API key to use this extension.');
-		return;
-	  }
-  
-	  // Get the staged changes
-	  const stagedChanges = await getStagedChanges();
-  
-	  // Check if there are no staged changes
-	  if (!stagedChanges || stagedChanges.trim() === '') {
-		vscode.window.showInformationMessage('There are no changes to commit.');
-		return;
-	  }
-  
-	  const suggestions = await generateCommitSuggestions(apiKey, stagedChanges, 5);
-  
-	  if (!suggestions || suggestions.length === 0) {
-		return;
-	  }
-  
-	  const selectedCommitMessage = await vscode.window.showQuickPick(suggestions, {
-		placeHolder: 'Select a commit message',
-		ignoreFocusOut: true,
-	  });
-  
-	  if (selectedCommitMessage) {
-		const terminal = vscode.window.activeTerminal || vscode.window.createTerminal();
-		terminal.show();
-  
-		const commitMessageWithoutNumber = selectedCommitMessage.replace(/^\d+\.\s*/, '');
-		terminal.sendText(`git commit -m "${commitMessageWithoutNumber}"`);
-	  }
+		const apiKey = await getOpenAIKey();
+
+		if (await hasUnstagedChanges()) {
+			const terminal = vscode.window.activeTerminal || vscode.window.createTerminal();
+			terminal.show();
+			terminal.sendText('git status');
+			vscode.window.showInformationMessage('You need to stage your changes with "git add ." before using this extension.');
+			return;
+		}
+
+		if (!apiKey) {
+			vscode.window.showErrorMessage('Please provide your OpenAI API key to use this extension.');
+			return;
+		}
+
+		// Get the staged changes
+		const stagedChanges = await getStagedChanges();
+
+		// Check if there are no staged changes
+		if (!stagedChanges || stagedChanges.trim() === '') {
+			vscode.window.showInformationMessage('There are no changes to commit.');
+			return;
+		}
+
+		const suggestions = await generateCommitSuggestions(apiKey, stagedChanges, 5);
+
+		if (!suggestions || suggestions.length === 0) {
+			return;
+		}
+
+		const selectedCommitMessage = await vscode.window.showQuickPick(suggestions, {
+			placeHolder: 'Select a commit message',
+			ignoreFocusOut: true,
+		});
+
+		if (selectedCommitMessage) {
+			const commitMessageWithoutNumber = selectedCommitMessage.replace(/^\d+\.\s*/, '');
+
+			const userAction = await vscode.window.showQuickPick(['Commit', 'Place in terminal'], {
+				placeHolder: 'Choose an action',
+				ignoreFocusOut: true,
+			});
+
+			if (userAction === 'Commit') {
+				commitToGit(commitMessageWithoutNumber);
+			} else if (userAction === 'Place in terminal') {
+				placeInTerminal(commitMessageWithoutNumber);
+			}
+		}
 	});
-  
+
 	context.subscriptions.push(disposable);
-  }
-  
+}
+
+function commitToGit(commitMessage: string) {
+	const terminal = vscode.window.activeTerminal || vscode.window.createTerminal();
+	terminal.show();
+	terminal.sendText(`git commit -m "${commitMessage}"`);
+}
+
+function placeInTerminal(commitMessage: string) {
+	const terminal = vscode.window.activeTerminal || vscode.window.createTerminal();
+	terminal.show();
+	terminal.sendText(`git commit -m "${commitMessage}"`, false);
+}
 
 async function getOpenAIKey(forceNewKey = false): Promise<string | undefined> {
 	const configuration = vscode.workspace.getConfiguration('gitCommitSuggestions');
@@ -97,15 +115,15 @@ async function getOpenAIKey(forceNewKey = false): Promise<string | undefined> {
 async function getStagedChanges(): Promise<string> {
 	const workspaceFolders = vscode.workspace.workspaceFolders;
 	if (!workspaceFolders) {
-	  return '';
+		return '';
 	}
-  
+	// try this extension
 	const gitInstance = git(workspaceFolders[0].uri.fsPath);
 	const diffSummary = await gitInstance.diff(['--staged']);
-  
+
 	return diffSummary;
-  }
-  
+}
+
 
 
 

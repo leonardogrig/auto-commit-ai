@@ -26,9 +26,11 @@ Please report any issues or bugs you encounter on the [GitHub repository](https:
 
 ## Release Notes
 
-### 0.0.1
+### 0.0.4
 
 - Initial release of the Git Commit Suggestions extension.
+
+- Implementation of a feature sugested by https://github.com/tsomic to allow edits for the commits made. Thanks!
 
 ---
 
