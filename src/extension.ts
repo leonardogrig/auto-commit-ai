@@ -97,7 +97,7 @@ async function getOpenAIKey(forceNewKey = false): Promise<string | undefined> {
 
 	if (!apiKey) {
 		apiKey = await vscode.window.showInputBox({
-			prompt: 'Digite sua chave da API OpenAI',
+			prompt: 'Type your OpenAi API Key',
 			ignoreFocusOut: true,
 			password: true,
 		});
@@ -117,7 +117,7 @@ async function getStagedChanges(): Promise<string> {
 	if (!workspaceFolders) {
 		return '';
 	}
-	// try this extension
+
 	const gitInstance = git(workspaceFolders[0].uri.fsPath);
 	const diffSummary = await gitInstance.diff(['--staged']);
 
@@ -151,7 +151,7 @@ async function generateCommitSuggestions(apiKey: string, prompt: string, numSugg
 		return suggestions;
 	} catch (error) {
 		if (axios.isAxiosError(error) && isRateLimitError(error)) {
-			vscode.window.showErrorMessage('Sua chave da API expirou. Por favor, insira outra chave.');
+			vscode.window.showErrorMessage('Youre API key expired. Please insert another one.');
 			const newApiKey = await getOpenAIKey(true);
 			if (newApiKey) {
 				return generateCommitSuggestions(newApiKey, prompt, numSuggestions);
@@ -161,7 +161,6 @@ async function generateCommitSuggestions(apiKey: string, prompt: string, numSugg
 		}
 	}
 
-	// Adicione um retorno explícito de 'undefined' no final da função
 	return undefined;
 }
 
